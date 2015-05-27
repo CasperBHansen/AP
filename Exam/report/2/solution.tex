@@ -1,0 +1,59 @@
+%
+% 2/solution.tex
+%
+
+\subsection{Preliminary}
+In order to start implementation of anything in the interpreter, I had to
+define the basic types (see appendix \ref{code:interp|part:types0} and
+\ref{code:interp|part:types1}) used manipulated throughout the implementation.
+I reason that a simple \code{Map} synonym would do for the \code{Store} as
+they are basically synonomous in nature.
+
+I reason that a global state should contain a store of references to objects
+(line 52). A store of methods (line 53) bound by class name and its own name
+for lookup at runtime, since these aren't bound by instantiations, and can be
+reused across many instances. An output (line 54), which is merely a string
+and a unique ID counter (line 55), for allocating of unique IDs.
+
+\subsection{Solution}
+With the types defined I then had the means to define the \code{FastM a}
+monad, which I defined as given a program \code{Prog} and a state
+\code{GlobalState} produces either an error or a state and a computed value
+\code{(GlobalState, a)}. The binding operator is defined as given the inputs
+of the monad type (a program and a state) compute the result, and apply the
+monadic function \code{f}, returning the transformed monad. The return
+operation merely wraps the given argument, and the fail operation is as simply
+defined as it can be, using \code{error}. This monad is responsible for
+handling the runtime of the program being executed.
+
+Having the \code{FastM} monad, I proceeded to define the monadic manipulation
+functions (see appendix \ref{code:interp|part:fastm-manip}), which I believe
+are all very self-explanatory from their naming.
+
+Defining the \code{FastMethodM a} as taking an object reference
+\code{ObjectReference}, and a method state \code{MethodState}, manipulates the
+runtime (in other words, producing a \code{FastM a}). The binding operator is
+defined as given the inputs of the monad type (a reference and a method state)
+compute the result, and apply the monadic function \code{f}, returning the
+transformed result. The return and fail operations are both feed to the
+lifting function (lines 199--200), which lifts the \code{FastMethodM} to
+perform the operation as if it were a \code{FastM}.
+
+As the case with \code{FastM}, the definitions and workings of the monadic
+manipulation functions (see appendix \ref{code:interp|part:fastmethodm-manip})
+of \code{FastMethodM} are all very self-explanatory from their naming.
+
+An interesting monadic function is the \code{evalMethodBody} which given an
+object reference, a list of arguments and a method body (a list of
+\code{Expr}) alters the runtime state. Firstly, it binds the given arguments,
+and it then proceeds to execute the method body. Also, the \code{evalArgs}
+is quite handy, as it allows for easy argument processing. It simply maps over
+the arguments using the monadic function \code{evalExpr}, producing a list of
+corresponding values.
+
+The last, I believe, correctly implemented function is \code{findClassDecl},
+which given a name looks up the corresponding class declaration. If it does
+not yield any results or if more than one such name exists, a run-time error
+is produced. Otherwise we can register the contained methods of the class and
+return the class definition for instantiation (see subsection Reflections on
+this matter).

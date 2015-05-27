@@ -1,0 +1,18 @@
+%
+% 3/assess.tex
+%
+
+\subsection{Assessment}
+Because of the design decision to only spawn update-threads when needed, and
+kill them when not need any longer, I find my solution to be very efficient in
+its used of threads --- no thread alive is obsolete. A simpler solution would
+have an update thread for each cell kept alive, even though it has nothing but
+a singular value to return. My solution only keeps an update-thread alive if
+its associated cell is a formula --- requiring it to stay informed of changes.
+
+As a result of this design decision long-running formulae cannot block, any
+cell --- not even itself. It allows formulae to be in the process of
+evaluation, but be stopped by issuing a \code{set\_value} message to the cell,
+and this will simply discard the current update-thread, producing a new thread
+that will be associated with the cell in question, thus avoiding deadlocks as
+well.

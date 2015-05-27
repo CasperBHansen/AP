@@ -1,0 +1,12 @@
+%
+% 3/reflect.tex
+%
+
+\subsection{Reflections}
+The provided solution does not handle circular dependencies, and that is a
+clear error in the solution. This is, however, only because I had to divert my
+attention to other parts of the exam. Had I had more time I would have either
+used the extra information field to accumulate which cells have are dependent
+on the current evaluation, and if the cell being evaluated at that time is a
+member of that set then a circular reference would have been detected, causing
+an error.

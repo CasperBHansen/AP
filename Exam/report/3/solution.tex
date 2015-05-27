@@ -1,0 +1,31 @@
+%
+% 3/solution.tex
+%
+
+\subsection{Solution}
+I began by defining the API (see appendix \ref{code:sheet|part:api}), notable
+design decisions were made for the \code{cell} function. The \code{cell}
+function requests a new cell from the spreadsheet, which handles the request
+and responds with a cell process ID (this may be an existing cell, and this is
+handled by the spreadsheet server, see appendix \ref{code:sheet|part:sheet}).
+A sidenote to this is that although \code{set\_value} should be asyncronous
+and I call its handler using the syncronous \code{rpc} function, it does
+return from the handler immediately after an updater has received its job (see
+appendix \ref{code:sheet|part:cell}).
+
+The update server is implemented as a thread that runs in parallel with an
+associated cell. An important design decision was made to not keep an updater
+alive if the associated cell merely contains a value. This was done by the
+case in which the updater does not receive any dependencies (see appendix
+\ref{code:sheet|part:update_reset}). If it does indeed have dependencies, the
+updater-thread will stay alive, and look for changes in its dependencies, and
+accumulate values until a result is acheived. Once a result is computed it
+will reset itself. If it is in the process of producing a result and there are
+missing data after a period of 500ms it will {\it ping} the cells for a value,
+and notify viewers of the associated cell that it is trying to update.
+
+I circumvented the case in which a cell process id doesn't exist yet by simply
+creating it, should it be requested by the updater. New cells are given the
+value \code{undefined}, which I reason is appropriate in such cases --- that
+is, if a cell doesn't exist it must evaluate as undefined for formulae
+depending on it.

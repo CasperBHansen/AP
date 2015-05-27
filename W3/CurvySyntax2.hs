@@ -2,7 +2,7 @@
 -- Martin Jorgensen, tzk173
 -- Casper B. Hansen, fvx507
 
-module CurvySyntax where
+module CurvySyntax2 where
 
 import CurveAST
 import Text.ParserCombinators.ReadP

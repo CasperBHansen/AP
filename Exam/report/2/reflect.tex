@@ -1,0 +1,23 @@
+%
+% 2/reflect.tex
+%
+
+\subsection{Reflections}
+Although the interpreter is incomplete, and does not yield any meaningful
+output for testing, I believe I have a firm understanding of how to complete
+it, had I had more time to do so. The \code{FastM} monad handles the runtime
+and with it the global state, whilst \code{FastMethodM} handles the execution
+of function calls and the local scope thereof.
+
+As I was out of time, and did not get to instantiate any objects, the
+\code{createObject} is incomplete, and does not do what it is supposed to. My
+thoughts of implementation thereof is that once allocated, the object should
+be pushed onto the state, allowing it to be referenced. After that, since the
+return value of the constructor is simply discarded, it would be a mere matter
+of running \code{evalMethodBody} on the constructor.
+
+Most of the monadic expression evaluation functions aren't implemented because
+I was stalled at the method implementation discussed above. I would guess that
+it wouldn't take much time to implement them, once objects could be
+instantiated, including the \code{sendMessageTo} method, which also lacks an
+implementation.

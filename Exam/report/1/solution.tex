@@ -1,0 +1,35 @@
+%
+% 1/solution.tex
+%
+
+% omissions
+% design decisions
+
+\subsection{Solution}
+In designing the parser, I drew upon the fact that the Haskell parser library
+used (ReadP) allows for building smaller parsers. I began the process by
+implementing a subset of the language; namely the expression grammar
+(excluding {\it Expr '.' Name '(' Args ')'}, which is an omission I have made
+because of lack of time). Each form an expression could take on was defined as
+a parser in its own right.
+
+Once I was able to parse a selection of expressions, I decided to move on, as
+the expression parser was stable and adding new expression types was a breeze.
+I then moved on to implementing a parser for the {\it Params} and {\it Exprs}
+grammar production rules. These were fairly easy, as a result of having the
+convenience functions handy --- all I had to do was to get the contents of the
+parens, which the \code{sepBy} parser was an obvious choice for.
+
+With these done, I had the means to implement the remainder of the expression
+parsers, as some of them depended upon the formerly described functionality,
+and this concludes the expression parser.
+
+Being able to parse expressions I could now focus on implementing the class
+declaration parser. Because I couldn't immediately see how to modularize the
+methods I decided to simply write a parser for each kind, so as to not spend
+too much time on figuring it out. Some erroneous parts occurs in this parser
+(see reflections and assessment).
+
+Having all of the sub-parsers in place, I could add the main parser, which
+simply parses for a series of class declarations followed by an end-of-file.
+

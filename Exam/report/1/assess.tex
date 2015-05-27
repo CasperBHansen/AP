@@ -1,0 +1,15 @@
+%
+% 1/assess.tex
+%
+
+\subsection{Assessment}
+A simple thing like the convience functions ensures a stable and well-defined
+expected behavior across any part of the parser making use of them. Also,
+having defined each form of the left-hand side of the grammar as a parser of
+its own allows me to reason that the precedence of the parser is correct.
+
+The solution lacks the ability to parse the synonomous expression for sending
+messages ({\it Expr '.' Name '(' Args ')'}). Had I had more time I would
+probably look to parse it by way of using a chain parser, much like I did with
+the arithmetic operation parser. Furthermore, it does not live up to the
+grammar specification, because of the problem I had with the receiver method.

@@ -1,0 +1,26 @@
+%
+% 1/reflect.tex
+%
+
+\subsection{Reflections}
+The arithmetic sub-parser has a flaw in it, that when evaluating just an
+expression like {\it 2+3} we do not get the expected result \code{Plus (
+IntConst 2, IntConst 3)}, the actual parsed result is \code{IntConst 2}. This
+would be a problem if we allowed such statements in our language, but this is
+{\it not} the case, as the language requires a semi-colon after each lone
+expression, and thus isn't a problem once used in the context of another
+parser requiring some termination symbol. This is also true arguments as each
+expression is then separated by a comma, and ended by a paren. I thought about
+enforcing it, to make it work without, but decided that it would make no
+difference and poses no problem as such expressions can never occur in Fast.
+
+I realize that the implementation of parsing the different kinds of methods
+(constructor, receiver and class methods) can probably be modularized better,
+and this does pose some behavior expectancy anormaly --- thus I cannot reason
+that they all work equally well. Furthermore, there is a problem with parsing
+the receiver, which is supposed to be at the very end of the class methods.
+This is a problem I realize does {\it not} comply with the grammar
+specification. The circumvention of the problem I had to do, because of time
+constraints was to rewrite the class declaration rule to {\it '\code{class}'
+Name '{' ConstructorDecl RecvDecl NamedMethodDecls '}'} --- this is a definite
+error in the parser.

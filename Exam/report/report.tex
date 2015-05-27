@@ -1,0 +1,131 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{a4wide}
+%\usepackage{appendix}
+\usepackage{blkarray}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[T1]{fontenc}
+\linespread{1.2}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,ulem}
+\usepackage{courier}
+\usepackage{color}
+\usepackage{mdwlist}
+\usepackage{multicol}
+\usepackage{verbatim}
+%\setcounter{secnumdepth}{1}
+%\setcounter{tocdepth}{3}
+\usepackage{todonotes}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{mdwlist}
+\usepackage{wrapfig}
+\usepackage{caption}
+\newcommand{\graphicc}[4]{\begin{figure}[H] \centering
+            \includegraphics[width={#1\textwidth}, keepaspectratio=true]{{#2}}
+            \caption{{#3}} \label{#4} \end{figure}}
+
+\newcommand{\figref}[1]{(see figure~\ref{#1})}
+
+\newcommand{\code}[1]{{\tt #1}}
+\newcommand{\file}[1]{{\tt #1}}
+
+\newcommand{\parsercode}{../src/fast/FastParser.hs}
+\newcommand{\interpretercode}{../src/fast/FastInterpreter.hs}
+\newcommand{\spreadsheetcode}{../src/sheet/sheet.erl}
+
+%\newcommand{\assignment}{../assignment/mr.erl}
+%\newcommand{\tests}{../assignment/tests.erl}
+
+% usage: \codefig{label}{file}{firstline}{lastline}{description}
+\newcommand{\codefig}[5]
+{
+\begin{figure}[H]
+    \lstinputlisting[firstnumber=#3,firstline=#3,lastline=#4]{#2}
+    \caption{#5 (#2)}
+    \label{code:#1}
+\end{figure}
+}
+
+\definecolor{comment}{rgb}      {0.38, 0.62, 0.38}
+\definecolor{keyword}{rgb}      {0.10, 0.10, 0.81}
+\definecolor{identifier}{rgb}   {0.00, 0.00, 0.00}
+\definecolor{string}{rgb}       {0.50, 0.50, 0.50}
+
+\lstset
+{
+%   language=erlang,
+    % general settings
+    numbers=left,
+    frame=single,
+    basicstyle=\footnotesize\ttfamily,
+    tabsize=2,
+    breaklines=true,
+    showstringspaces=false,
+    % syntax highlighting
+    commentstyle=\color{comment},
+    keywordstyle=\color{keyword},
+    identifierstyle=\color{identifier},
+    stringstyle=\color{string},
+}
+
+\renewcommand{\contentsname}{Tasks}
+
+\title
+{
+    {\Large Exam} \\
+    Advanced Programming
+}
+
+\author
+{
+    Casper B. Hansen \\
+    University of Copenhagen \\
+    Department of Computer Science \\
+    {\tt fvx507@alumni.ku.dk}
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\begin{multicols}{2}
+    \begin{abstract}
+        In the exam I give a description of the implementation, design
+        decision thereof, reflections on unresolved issues, as well as an
+        assessment of the provided solution.
+        
+        The topics covered are a parser for the fictional Fast language, an
+        interpreter of the same language, and lastly an asyncronous backend
+        for a spreadsheet.
+    \end{abstract}
+    \vfill{\ }\columnbreak
+    \tableofcontents
+\end{multicols}
+\clearpage
+
+\section{Parser}
+\input{1/preliminary}
+\input{1/solution}
+\input{1/reflect}
+\input{1/assess}
+
+\section{Interpreter}
+\input{2/solution}
+\input{2/reflect}
+\input{2/assess}
+
+\section{Spreadsheet}
+\input{3/solution}
+\input{3/reflect}
+\input{3/assess}
+
+\appendix
+\input{appendix}
+
+\end{document}
